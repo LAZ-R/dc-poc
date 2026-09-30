@@ -1,0 +1,37 @@
+:root {
+  /* Variables */
+  --color--bg-default: hsl(0, 0%, 100%);
+  --color--bg-elevated: hsl(0, 0%, 90%);
+
+  --color--fg-default: hsl(0, 0%, 10%);
+  --color--fg-secondary: hsl(0, 0%, 30%);
+  --color--fg-subtle: hsl(0, 0%, 80%);
+
+  --color--primary: hsl(300, 20%, 35%);
+  --color--primary--alpha: hsla(300, 50%, 25%, .2);
+
+  --border-radius--small: .25rem;
+  --border-radius--default: 1rem;
+  --box-shadow--default: 0rem .2rem .5rem hsla(0, 0%, 0%, .1);
+
+  --horizontal-padding: 2rem;
+
+  --nav-width: 0rem;
+  --header-height: 4rem;
+}
+
+/* Tablets ----------- */
+@media (min-width : 767px) and (max-width : 1279px) {
+  :root {
+    --horizontal-padding: 10svw;
+    --nav-width: 20svw;
+  }
+}
+
+/* Laptops & up ----------- */
+@media (min-width: 1280px){
+  :root {
+    --horizontal-padding: 20svw;
+    --nav-width: calc(var(--horizontal-padding) * .8);
+  }
+}
