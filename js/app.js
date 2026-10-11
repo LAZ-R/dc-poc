@@ -1,3 +1,10 @@
+const UNWALKABLE_TILES_ID = [0];
+
+function isUnwalkable(y, x) {
+  const answer = mapData[y][x];
+  return UNWALKABLE_TILES_ID.find((unwalkableNumber) => unwalkableNumber === answer) != undefined;
+}
+
 const MAIN_PAGE = document.getElementById('gameViewport');
 
 MAIN_PAGE.innerHTML = `
@@ -30,7 +37,7 @@ const game = new Phaser.Game(config);
 
 function preload() {
   // Décors
-  this.load.image('amphibi-tiles', './assets/tileset.png');
+  this.load.image('amphibi-tiles', './assets/tileset-test.png');
 
   // Scargol walk animations
   this.load.spritesheet('scargol', './assets/scargol-walk-spreadsheet.png', { // c'est ma spritesheet des 4 anims de marche
@@ -82,8 +89,6 @@ function create() {
     frameRate: 8,
     repeat: -1,
   });
-
-  // Du coup là faudra que je déclare les 3 autres anims
 
   // 2. Créer la map
   const map = this.make.tilemap({
@@ -161,7 +166,7 @@ function create() {
       return;
     }
   
-    if (mapData[targetY][targetX] === 1) {
+    if (isUnwalkable(targetY,targetX)) {
       return;
     }
 
@@ -217,21 +222,21 @@ function update() {
 
 const TILE_SIZE = 32;
 const mapData = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1],
-  [1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-  [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-  [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [100, 100,   2,   4, 100, 100, 100, 100, 100,  12,   6],
+  [100, 100,  12,  11, 100, 100, 100, 100, 100, 100,   2],
+  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
+  [100,   9,  10, 100, 100, 100, 100, 100, 100, 100,  12],
+  [100,   2,   8,  10, 100, 100, 100, 100, 100, 100, 100],
+  [100,   2,   0,   8,   3,  10, 100, 100, 100, 100, 100],
+  [100,   2,   5,   1,   6,   4, 100, 100, 100, 100, 100],
+  [100,   2,   4, 100,  12,  11, 100,   9,  10, 100,   9],
+  [100,   2,   4, 100, 100, 100, 100,   2,   4, 100,   2],
+  [100,   2,   8,   3,   3,   3,   3,   7,   4, 100,   2],
+  [100,  12,   1,   1,   1,   1,   1,   1,  11, 100,   2],
+  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
+  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
+  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
+  [  3,   3,   3,  10, 100, 100, 100,   9,   3,   3,   7],
 ];
 
 let player;
