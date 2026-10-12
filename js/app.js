@@ -1,8 +1,10 @@
 const UNWALKABLE_TILES_ID = [0];
+let isMoving = false;
 
 function isUnwalkable(y, x) {
   const answer = mapData[y][x];
-  return UNWALKABLE_TILES_ID.find((unwalkableNumber) => unwalkableNumber === answer) != undefined;
+  //return UNWALKABLE_TILES_ID.find((unwalkableNumber) => unwalkableNumber === answer) != undefined;
+  return answer < 52;
 }
 
 const MAIN_PAGE = document.getElementById('gameViewport');
@@ -131,24 +133,36 @@ function create() {
   );
 
   // 4. Créer le player + son état
-  player = this.add.sprite(
-    TILE_SIZE * 2 + TILE_SIZE / 2,
-    TILE_SIZE * 2 + TILE_SIZE / 2,
-    'scargol',
-  );
+  
   // Setup de la position du joueur
   let playerPosition = {
-    x: 2,
-    y: 2,
+    x: 7,
+    y: 3,
   };
+
+  // Création de l'entitée
+  player = this.add.sprite(
+    playerPosition.x * TILE_SIZE + TILE_SIZE / 2,
+    playerPosition.y * TILE_SIZE + TILE_SIZE / 2,
+    'scargol',
+  );
 
   // 5. Brancher les inputs
   this.input.on('pointerdown', pointer => {
+    if (isMoving) {
+      return;
+    }
+
     const targetX = Math.floor(pointer.worldX / TILE_SIZE);
     const targetY = Math.floor(pointer.worldY / TILE_SIZE);
 
     console.log('Tile cliquée :', targetX, targetY);
 
+    if (isUnwalkable(targetY,targetX)) {
+      return;
+    }
+
+    // Temporaire : seul le deplacement adjascent est autorisé sans pathfinder
     const distance =
       Math.abs(targetX - playerPosition.x) +
       Math.abs(targetY - playerPosition.y);
@@ -163,10 +177,6 @@ function create() {
       targetX < 0 ||
       targetX >= mapData[0].length
     ) {
-      return;
-    }
-  
-    if (isUnwalkable(targetY,targetX)) {
       return;
     }
 
@@ -201,6 +211,8 @@ function create() {
     playerPosition.y = targetY;
 
     player.play(animation);
+
+    isMoving = true;
   
     this.tweens.add({
       targets: player,
@@ -209,6 +221,7 @@ function create() {
       duration: 400,
       onComplete: () => {
         player.stop();
+        isMoving = false;
       },
     });
   });
@@ -222,21 +235,21 @@ function update() {
 
 const TILE_SIZE = 32;
 const mapData = [
-  [100, 100,   2,   4, 100, 100, 100, 100, 100,  12,   6],
-  [100, 100,  12,  11, 100, 100, 100, 100, 100, 100,   2],
-  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
-  [100,   9,  10, 100, 100, 100, 100, 100, 100, 100,  12],
-  [100,   2,   8,  10, 100, 100, 100, 100, 100, 100, 100],
-  [100,   2,   0,   8,   3,  10, 100, 100, 100, 100, 100],
-  [100,   2,   5,   1,   6,   4, 100, 100, 100, 100, 100],
-  [100,   2,   4, 100,  12,  11, 100,   9,  10, 100,   9],
-  [100,   2,   4, 100, 100, 100, 100,   2,   4, 100,   2],
-  [100,   2,   8,   3,   3,   3,   3,   7,   4, 100,   2],
-  [100,  12,   1,   1,   1,   1,   1,   1,  11, 100,   2],
-  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
-  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
-  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100,   2],
-  [  3,   3,   3,  10, 100, 100, 100,   9,   3,   3,   7],
+  [ 52,  52,   2,   4,  52,  52,  52,  52,  52,  12,   6],
+  [ 52,  52,  12,  11,  52,  52,  52,  52,  52,  52,   2],
+  [ 52,  52,  52,  52,  52,  52,  52,  52,  52,  52,   2],
+  [ 52,   9,  10,  52,  52,  52,  52,  52,  52,  52,  12],
+  [ 52,   2,   8,  10,  52,  52,  52,  52,  52,  52,  52],
+  [ 52,   2,   0,   8,   3,  10,  52,  52,  52,  52,  52],
+  [ 52,   2,   5,   1,   6,   4,  52,  52,  52,  52,  52],
+  [ 52,   2,   4,  52,  12,  11,  52,   9,  10,  52,   9],
+  [ 52,   2,   4,  52,  52,  52,  52,   2,   4,  52,   2],
+  [ 52,   2,   8,   3,   3,   3,   3,   7,   4,  52,   2],
+  [ 52,  12,   1,   1,   1,   1,   1,   1,  11,  52,   2],
+  [ 52,  52,  52,  52,  52,  52,  52,  52,  52,  52,   2],
+  [ 39,  39,  39,  39,  39,  65,  39,  39,  39,  39,   2],
+  [ 52,  52,  52,  52,  52,  52,  52,  52,  52,  52,   2],
+  [  3,   3,   3,  10,  52,  52,  52,   9,   3,   3,   7],
 ];
 
 let player;
