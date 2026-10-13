@@ -15,11 +15,56 @@
     <section id="gameViewport">
     </section>
     <section id="menuViewport">
-      <div>
-        <label>Show grid</label>
-        <input id="showGridCheckbox" type="checkbox" checked />
+
+      <div class="debug-menu">
+        <div>
+          
+          <fieldset>
+            <legend>Grid</legend>
+
+            <div class="flex-row">
+              <input id="showGridCheckbox" type="checkbox" checked />
+              <label for="showGridCheckbox">Show grid</label>
+            </div>
+
+            <div class="flex-row">
+              <input type="radio" name="gridcolorgroup" id="white" value="white" checked />
+              <label for="white">White</label>
+
+              <span class="vertical-separator"></span>
+
+              <input type="radio" name="gridcolorgroup" id="grey" value="grey" />
+              <label for="grey">Grey</label>
+
+              <span class="vertical-separator"></span>
+    
+              <input type="radio" name="gridcolorgroup" id="black" value="black" />
+              <label for="black">Black</label>
+            </div>
+          </fieldset>
+
+        </div>
+        <fieldset class="tileset-selector">
+          <legend>Tileset</legend>
+  
+          <div class="flex-row">
+            <input type="radio" name="tilesetgroup" id="tilesetMael" value="mael" checked />
+            <label for="tilesetMael">Mael</label>
+          
+            <span class="vertical-separator"></span>
+          
+            <input type="radio" name="tilesetgroup" id="tilesetDefault" value="default" />
+            <label for="tilesetDefault">Default</label>
+          
+            <span class="vertical-separator"></span>
+          
+            <input type="radio" name="tilesetgroup" id="tilesetDebug" value="debug" />
+            <label for="tilesetDebug">Debug</label>
+          </div>
+        </fieldset>
+        <span>v0.0.4</span>
       </div>
-      <span style="position: absolute; bottom: 1rem;">v0.0.3</span>
+
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
